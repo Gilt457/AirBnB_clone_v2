@@ -1,28 +1,27 @@
 #!/usr/bin/python3
-"""User class module."""
-
-from models.base_model import Base, BaseModel
-from sqlalchemy import Column, String
+"""class for the user"""
+from sqlalchemy.ext.declarative import declarative_base
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from models.place import Place as Plc
-from models.review import Review as Rev
+from models.place import Place
+from models.review import Review
 
 
 class User(BaseModel, Base):
-    """User entity representation.
-
+    """This class for the user
     Attributes:
-        email (str): User's email.
-        password (str): User's password.
-        first_name (str): User's first name.
-        last_name (str): User's last name.
+        email: email address
+        password: password for you login
+        first_name: first name
+        last_name: last name
     """
     __tablename__ = "users"
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     first_name = Column(String(128))
     last_name = Column(String(128))
-    places = relationship("Plc", cascade='all, delete, delete-orphan',
+    places = relationship("Place", cascade='all, delete, delete-orphan',
                           backref="user")
-    reviews = relationship("Rev", cascade='all, delete, delete-orphan',
+    reviews = relationship("Review", cascade='all, delete, delete-orphan',
                            backref="user")

@@ -1,30 +1,39 @@
 #!/usr/bin/python3
-"""State class module"""
-from models.base_model import Base, BaseModel
-from sqlalchemy import Column, String
+"""Module for State class definition."""
+
+from sqlalchemy.ext.declarative import declarative_base
+from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String
 import models
 from models.city import City
 import shlex
 
 
 class State(BaseModel, Base):
-    """State class
+    """Representation of 'State' which maps to 'states' table in the database.
+
     Attributes:
-        name: input name
+        name (str): The name of the state.
+        cities (relationship): The relationship to the 'City' class.
     """
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    cities = relationship('City', backref='state',
-                          cascade='all, delete, delete-orphan')
+    cities = relationship('City', cascade='all, delete, delete-orphan',
+                          backref='state')
 
     @property
     def cities(self):
-        """Getter for cities"""
-        all_objs = models.storage.all()
+        """Property that returns cities related to the state."""
+        all_cities = models.storage.all()
         city_list = []
-        for key, value in all_objs.items():
-            split_key = shlex.split(key.replace('.', ' '))
-            if split_key[0] == 'City':
+        related_cities = []
+        for key, value in all_cities.items():
+            city = key.replace('.', ' ')
+            city = shlex.split(city)
+            if city[0] == 'City':
                 city_list.append(value)
-        return [city for city in city_list if city.state_id == self.id]
+        for city in city_list:
+            if city.state_id == self.id:
+                related_cities.append(city)
+        return related_cities
