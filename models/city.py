@@ -1,23 +1,24 @@
 #!/usr/bin/python3
-"""Module for the City class definition."""
+"""City class module."""
 
-from sqlalchemy.ext.declarative import declarative_base
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String
-from sqlalchemy import ForeignKey
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
+from models.base_model import BaseModel, Base
 from models.place import Place
 
 
 class City(BaseModel, Base):
-    """Representation of a city within a database.
+    """City class for database representation.
 
     Attributes:
-        state_id (str): Identifier for the state the city belongs to.
-        name (str): The official name of the city.
+        state_id (str): State ID to which the city belongs.
+        name (str): Official city name.
     """
-    __tablename__ = "cities"
+    __tablename__ = 'cities'
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-    places = relationship("Place", cascade='all, delete, delete-orphan',
-                          backref="cities")
+    places = relationship(
+        'Place',
+        cascade='all, delete, delete-orphan',
+        backref='cities'
+    )

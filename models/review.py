@@ -1,18 +1,17 @@
 #!/usr/bin/python3
-"""Module for Review class."""
+"""Review class module."""
 
-from sqlalchemy.ext.declarative import declarative_base
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, String
+from models.base_model import Base, BaseModel
 
 
 class Review(BaseModel, Base):
-    """Representation of a Review entity.
+    """Review entity representation.
 
     Attributes:
-        place_id (str): Identifier of the place being reviewed.
-        user_id (str): Identifier of the user who wrote the review.
-        text (str): Content of the review.
+        place_id (str): Place's ID being reviewed.
+        user_id (str): ID of the user writing the review.
+        text (str): Review content.
     """
     __tablename__ = 'reviews'
     text = Column(String(1024), nullable=False)
