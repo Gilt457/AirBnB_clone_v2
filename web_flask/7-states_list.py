@@ -1,23 +1,22 @@
 #!/usr/bin/python3
-"""Importing Flask to run the web app"""
+"""This script imports Flask to run a web app."""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
-
 
 app = Flask(__name__)
 
 
 @app.route("/states_list", strict_slashes=False)
 def display_states():
-    """Render state_list html page to display States created"""
+    """Renders an HTML page to display the created States."""
     states = storage.all()
     return render_template('7-states_list.html', states=states)
 
 
 @app.teardown_appcontext
 def teardown(self):
-    """Method to remove current SQLAlchemy Session"""
+    """Method to close the current SQLAlchemy Session."""
     storage.close()
 
 
