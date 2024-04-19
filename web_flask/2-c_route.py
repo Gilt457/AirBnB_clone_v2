@@ -1,35 +1,40 @@
-#!/usr/bin/python3
-"""Initialize a Flask web application.
+#!/usr/bin/env python3
+"""
+A Flask web server application with specific routes.
 
-This application is configured to listen on all public.
-It defines the following routes:
-    /: Renders a greeting 'Hello HBNB!' when accessed.
-    /hbnb: Returns the string 'HBNB' upon access.
-    /c/<text>: Displays 'C' followed by the text passed in the URL.
+This server will be available on all network interfaces.
+Defined routes:
+    /: Responds with 'Hello HBNB!' when visited.
+    /hbnb: Returns 'HBNB' when accessed.
+    /c/<text>: Shows 'C ' followed by the given URL text.
 """
 from flask import Flask
 
-app = Flask(__name__)
+# Create an instance of the Flask class
+web_app = Flask(__name__)
 
 
-@app.route("/", strict_slashes=False)
-def hello_hbnb():
-    """Render the greeting 'Hello HBNB!'."""
+# Define the route for the root directory
+@web_app.route("/", strict_slashes=False)
+def greet():
+    """Respond with 'Hello HBNB!'."""
     return "Hello HBNB!"
 
 
-@app.route("/hbnb", strict_slashes=False)
-def hbnb():
-    """Return the string 'HBNB'."""
+# Define the route for '/hbnb'
+@web_app.route("/hbnb", strict_slashes=False)
+def display_hbnb():
+    """Return 'HBNB'."""
     return "HBNB"
 
 
-@app.route("/c/<text>", strict_slashes=False)
-def c(text):
-    """Display 'C' followed by the URL-passed text"""
-    text = text.replace("_", " ")
-    return "C {}".format(text)
+# Define the route for '/c/' with a variable path
+@web_app.route("/c/<path:text>", strict_slashes=False)
+def show_c_text(text):
+    """Show 'C ' followed by the text from the URL"""
+    return "C " + text.replace("_", " ")
 
 
+# Run the application if this script is executed as the main program
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    web_app.run(host="0.0.0.0", port=5000)
