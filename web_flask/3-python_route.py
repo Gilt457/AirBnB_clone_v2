@@ -1,44 +1,42 @@
 #!/usr/bin/python3
-"""Set up a Flask web server.
+"""Initialize a Flask web application.
 
-This server is set to be accessible on all interfaces.
-Available endpoints:
-    /: Displays 'Hello HBNB!' when visited.
-    /hbnb: Displays 'HBNB' when visited.
-    /c/<custom_text>: Displays 'C ' followed by the provided <custom_text>.
-    /python/(<custom_text>): Displays 'Python ' followed by the provided
+This application is configured to listen on all public IPs.
+Defined routes:
+    /: Renders the string 'Hello HBNB!' when accessed.
+    /hbnb: Renders the string 'HBNB' when accessed.
+    /c/<text>: Renders 'C ' followed by the user-provided <text>.
+    /python/(<text>): Renders 'Python ' followed by the user-provided <text>.
 """
 from flask import Flask
 
-web_app = Flask(__name__)  # Create a Flask application instance
+app = Flask(__name__)
 
 
-@web_app.route("/", strict_slashes=False)
-def greet_hbnb():
-    """Display the welcome message 'Hello HBNB!'."""
+@app.route("/", strict_slashes=False)
+def hello_hbnb():
+    """Render the greeting 'Hello HBNB!'."""
     return "Hello HBNB!"
 
 
-@web_app.route("/hbnb", strict_slashes=False)
-def display_hbnb():
-    """Display the string 'HBNB'."""
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
+    """Render the string 'HBNB'."""
     return "HBNB"
 
 
-@web_app.route("/c/<custom_text>", strict_slashes=False)
-def show_c_with_text(custom_text):
-    """Display 'C ' followed by the provided <custom_text>"""
-    custom_text = custom_text.replace("_", " ")
-    return "C {}".format(custom_text)
+@app.route("/c/<text>", strict_slashes=False)
+def c(text):
+    """Render 'C ' followed by the user-provided <text>."""
+    return f"C {text.replace('_', ' ')}"
 
 
-@web_app.route("/python", strict_slashes=False)
-@web_app.route("/python/<custom_text>", strict_slashes=False)
-def show_python_with_text(custom_text="is awesome"):
-    """Display 'Python ' followed by the provided <custom_text>"""
-    custom_text = custom_text.replace("_", " ")
-    return "Python {}".format(custom_text)
+@app.route("/python", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python(text="is cool"):
+    """Render 'Python ' followed by the user-provided <text>."""
+    return f"Python {text.replace('_', ' ')}"
 
 
 if __name__ == "__main__":
-    web_app.run(host="0.0.0.0")  # Start the application
+    app.run(host="0.0.0.0", port=5000)
