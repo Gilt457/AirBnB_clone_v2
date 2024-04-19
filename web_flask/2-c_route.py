@@ -1,40 +1,42 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
-A Flask web server application with specific routes.
+Set up a Flask web server.
 
-This server will be available on all network interfaces.
-Defined routes:
-    /: Responds with 'Hello HBNB!' when visited.
-    /hbnb: Returns 'HBNB' when accessed.
-    /c/<text>: Shows 'C ' followed by the given URL text.
+This server is open to all network interfaces.
+It includes these endpoints:
+    /: Shows 'Hello HBNB!' when visited.
+    /hbnb: Delivers the text 'HBNB' when requested.
+    /c/<text>: Shows 'C' plus the text from the URL.
 """
 from flask import Flask
 
-# Create an instance of the Flask class
-web_app = Flask(__name__)
+# Create an instance of the Flask class.
+app = Flask(__name__)
 
 
-# Define the route for the root directory
-@web_app.route("/", strict_slashes=False)
-def greet():
-    """Respond with 'Hello HBNB!'."""
+# Define the root route of the web application.
+@app.route("/", strict_slashes=False)
+def hello_hbnb():
+    """Serve the welcome message 'Hello HBNB!'."""
     return "Hello HBNB!"
 
 
-# Define the route for '/hbnb'
-@web_app.route("/hbnb", strict_slashes=False)
-def display_hbnb():
-    """Return 'HBNB'."""
+# Define the route for the string 'HBNB'.
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
+    """Provide the string 'HBNB' as a response."""
     return "HBNB"
 
 
-# Define the route for '/c/' with a variable path
-@web_app.route("/c/<path:text>", strict_slashes=False)
-def show_c_text(text):
-    """Show 'C ' followed by the text from the URL"""
-    return "C " + text.replace("_", " ")
+# Define the route for displaying 'C' and the text from the URL.
+@app.route("/c/<text>", strict_slashes=False)
+def c(text):
+    """Concatenate 'C' with the text from the URL, replacing"""
+    text = text.replace("_", " ")  # Replace underscores.
+    return "C {}".format(text)  # Return the formatted string.
 
 
-# Run the application if this script is executed as the main program
+# Check if the script is executed as the main program and run the app.
 if __name__ == "__main__":
-    web_app.run(host="0.0.0.0", port=5000)
+    # Start the Flask web server on all available interfaces.
+    app.run(host="0.0.0.0")
