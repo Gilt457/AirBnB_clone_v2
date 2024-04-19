@@ -1,21 +1,22 @@
 #!/usr/bin/python3
-"""Initialize a Flask web application.
+"""Starts a Flask web application.
 
-This application is configured to listen on all public IPs.
-Defined Routes:
-    /states_list: Renders an HTML page listing all State entities.
+The application listens on 0.0.0.0, port 5000.
+Routes:
+    /states_list: HTML page with a list of all State objects in DBStorage.
 """
 from models import storage
-from flask import Flask, render_template
+from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 
 @app.route("/states_list", strict_slashes=False)
 def states_list():
-    """Render an HTML page that lists State entities from DBStorage.
+    """Displays an HTML page with a list of all State objects in DBStorage.
 
-    The State entities are ordered alphabetically by their name.
+    States are sorted by name.
     """
     states = storage.all("State")
     return render_template("7-states_list.html", states=states)
@@ -23,7 +24,7 @@ def states_list():
 
 @app.teardown_appcontext
 def teardown(exc):
-    """Terminate the current SQLAlchemy session."""
+    """Remove the current SQLAlchemy session."""
     storage.close()
 
 
