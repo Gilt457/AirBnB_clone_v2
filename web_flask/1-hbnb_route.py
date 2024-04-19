@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Initialize a Flask web application.
+"""
+Flask web application with custom routes.
 
-This application is configured to listen on all public IPs (0.0.0.0).
-Defined routes:
-    /: Returns the string 'Hello HBNB!' when accessed.
-    /hbnb: Returns the string 'HBNB' when accessed.
+Routes:
+    /: Returns the message 'Welcome to My Web App!' when accessed.
+    /about: Returns the string 'About Us' when accessed.
 """
 from flask import Flask
 
@@ -12,15 +12,15 @@ app = Flask(__name__)
 
 
 @app.route("/", strict_slashes=False)
-def hello_hbnb():
-    """Return the greeting 'Hello HBNB!' when the root route is requested."""
-    return "Hello HBNB!"
+def welcome():
+    """Return the message 'Welcome to My Web App!"""
+    return "Welcome to My Web App!"
 
 
-@app.route("/hbnb", strict_slashes=False)
-def hbnb():
-    """Return 'HBNB' when the '/hbnb' route is requested."""
-    return "HBNB"
+@app.route("/about", strict_slashes=False)
+def about():
+    """Return 'About Us' when the '/about' route is requested."""
+    return "About Us"
 
 
 if __name__ == "__main__":
