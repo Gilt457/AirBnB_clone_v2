@@ -13,8 +13,7 @@ Routes:
     /number_odd_or_even/<n>: Displays an HTML page only if <n> is an integer.
         - States whether <n> is even or odd in the body.
 """
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template
 
 app = Flask(__name__)
 app.jinja_env.trim_blocks = True
@@ -35,46 +34,40 @@ def hbnb():
 
 @app.route("/c/<text>", strict_slashes=False)
 def c(text):
-    """Displays 'C' followed by the value of <text>
+    """Displays 'C' followed by the value of <text>,
 
-    Replaces any underscores in <text> with spaces.
-    """
-    text = text.replace("_", " ")
-    return "C {}".format(text)
+    replacing underscores with spaces."""
+    return f"C {text.replace('_', ' ')}"
 
 
 @app.route("/python", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def python(text="is cool"):
-    """Displays 'Python' followed by the value of <text>
+    """Displays 'Python' followed by the value of <text>,
 
-    Replaces any underscores in <text> with spaces.
-    """
-    text = text.replace("_", " ")
-    return "Python {}".format(text)
+    replacing underscores with spaces."""
+    return f"Python {text.replace('_', ' ')}"
 
 
 @app.route("/number/<int:n>", strict_slashes=False)
 def number(n):
     """Displays 'n is a number' only if <n> is an integer."""
-    return "{} is a number".format(n)
+    return f"{n} is a number"
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def number_template(n):
-    """Displays an HTML page only if <n> is an integer.
+    """Displays an HTML page only if <n> is an integer,
 
-    Displays the value of <n> in the body.
-    """
+    showing the value of <n> in the body."""
     return render_template("5-number.html", n=n)
 
 
 @app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
 def number_odd_or_even(n):
-    """Displays an HTML page only if <n> is an integer.
+    """Displays an HTML page only if <n> is an integer,
 
-    States whether <n> is odd or even in the body.
-    """
+    stating whether <n> is odd or even in the body."""
     return render_template("6-number_odd_or_even.html", n=n)
 
 
